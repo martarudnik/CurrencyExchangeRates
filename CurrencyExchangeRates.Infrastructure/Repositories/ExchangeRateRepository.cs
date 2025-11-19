@@ -17,12 +17,21 @@ public class CurrencyRateRepository(DataContext context) : ICurrencyRateReposito
 
     public async Task<IEnumerable<CurrencyTable>> GetCurrencyHistoryByCode(string code, CancellationToken cancellationToken)
     {
-        return await _context.CurrencyTables.Where(it => it.Rates.Any(x => x.Code.Equals(code.ToUpper())))
-                                            .Include(it => it.Rates)
+        var upperCode = code.ToUpper();
+
+        return await _context.CurrencyTables
+                                            .Select(it => new CurrencyTable
+                                            {
+                                                Id = it.Id,
+                                                EffectiveDate = it.EffectiveDate,
+                                                TableType = it.TableType,
+                                                Rates = it.Rates.Where(x => x.Code == upperCode).ToList()
+                                            })
+                                            .OrderByDescending(t => t.EffectiveDate)
                                             .AsNoTracking()
-                                            .OrderByDescending(x => x.EffectiveDate)
                                             .ToListAsync(cancellationToken);
     }
+
     public async Task<bool> ExistsByEffectiveDateAsync(DateTime date, CancellationToken cancellationToken)
     {
         return await _context.CurrencyTables.AnyAsync(it => it.EffectiveDate == date, cancellationToken);

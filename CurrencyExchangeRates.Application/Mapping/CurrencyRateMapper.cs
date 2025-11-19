@@ -41,7 +41,6 @@ public static class CurrencyRateMapper
 
             Rates = nbpTableBResponse.Rates.Select(it => new CurrencyRate
             {
-                Id = Guid.NewGuid(),
                 Code = it.Code,
                 Currency = it.Currency,
                 Rate = it.Mid
