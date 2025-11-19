@@ -57,7 +57,10 @@ Aplikacja frontendowa:
 1) zastąpienie prostego retry → Polly
 2) dodatkowe testy
 3) uszczelnienie aplikacji (walidacja + odporność produkcyjna)
-4) biznesowe możliwości rozbudowy:
+4) pełny pipeline CI/CD 
+5) biznesowe możliwości rozbudowy:
+   
    a) dodanie wykresów zmian kursów dla wybranej waluty,
+   
    b) pobieranie i wyświetlanie archiwalnych tabel z dowolnego zakresu dat,
-5) pełny pipeline CI/CD 
+   
