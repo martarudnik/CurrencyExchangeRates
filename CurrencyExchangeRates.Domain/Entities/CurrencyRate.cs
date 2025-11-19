@@ -5,4 +5,8 @@ public class CurrencyRate
     public string Code { get; set; } = string.Empty;
     public string Currency { get; set; } = string.Empty;
     public decimal Rate { get; set; }
+    public int CurrencyTableId { get; set; }
+    public CurrencyTable CurrencyTable { get; set; } = null!;
+
+
 }
