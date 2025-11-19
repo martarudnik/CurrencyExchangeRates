@@ -1,0 +1,9 @@
+﻿.currency-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px; 
+    margin: 20px auto 40px auto;
+    padding: 0 20px;
+}
