@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurrencyExchangeRates.Domai
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurrencyExchangeRates.Application", "CurrencyExchangeRates.Application\CurrencyExchangeRates.Application.csproj", "{E97D02BA-905C-47B8-9CFF-6E7D887EAF78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurrencyExchangeRates.Jobs", "CurrencyExchangeRates.Jobs\CurrencyExchangeRates.Jobs.csproj", "{18492D85-524E-488D-872E-16FE3FBD1773}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,10 +41,6 @@ Global
 		{E97D02BA-905C-47B8-9CFF-6E7D887EAF78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E97D02BA-905C-47B8-9CFF-6E7D887EAF78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E97D02BA-905C-47B8-9CFF-6E7D887EAF78}.Release|Any CPU.Build.0 = Release|Any CPU
-		{18492D85-524E-488D-872E-16FE3FBD1773}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{18492D85-524E-488D-872E-16FE3FBD1773}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{18492D85-524E-488D-872E-16FE3FBD1773}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{18492D85-524E-488D-872E-16FE3FBD1773}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

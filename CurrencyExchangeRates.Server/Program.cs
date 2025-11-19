@@ -1,6 +1,6 @@
 ﻿using CurrencyExchangeRates.Application;
 using CurrencyExchangeRates.Infrastructure;
-using CurrencyExchangeRates.Jobs.Schedulers;
+using CurrencyExchangeRates.Server.HostedServices;
 
 var builder = WebApplication.CreateBuilder(args);
 

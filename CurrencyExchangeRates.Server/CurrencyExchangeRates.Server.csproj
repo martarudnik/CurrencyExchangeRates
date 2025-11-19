@@ -22,7 +22,6 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="..\CurrencyExchangeRates.Infrastructure\CurrencyExchangeRates.Infrastructure.csproj" />
-    <ProjectReference Include="..\CurrencyExchangeRates.Jobs\CurrencyExchangeRates.Jobs.csproj" />
   </ItemGroup>
 
 </Project>
