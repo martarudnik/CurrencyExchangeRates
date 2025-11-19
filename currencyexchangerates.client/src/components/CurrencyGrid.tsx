@@ -32,7 +32,7 @@ export default function CurrencyGrid() {
         <>
             <h1>Tabela {table.table} kursów średnich walut obcych</h1>
 
-            <h2>Dane z dnia: {new Date(table.effectiveDate).toLocaleDateString()}</h2>
+            <h2>Dane z dnia: {new Date(table.effectiveDate).toLocaleDateString('pl-PL', {day: '2-digit', month: '2-digit', year: 'numeric'})}</h2>
             <h3>Tabela numer: {table.tableNumber}</h3>
             <div className="currency-grid">
                 {table.rates.map(r => (

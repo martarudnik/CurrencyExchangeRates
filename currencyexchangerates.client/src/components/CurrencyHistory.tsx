@@ -29,7 +29,7 @@ export default function CurrencyHistory() {
             <div className="history-list">
                 {history.map((h, i) => (
                     <div className="history-card" key={i}>
-                        <div className="date">{new Date(h.effectiveDate).toLocaleDateString()}</div>
+                        <div className="date">{new Date(h.effectiveDate).toLocaleDateString('pl-PL', { day: '2-digit', month: '2-digit', year: 'numeric'})}</div>
                         <div className="rate">Kurs średni (PLN): <strong>{h.rate}</strong></div>
                     </div>
                 ))}
