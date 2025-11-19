@@ -19,7 +19,7 @@ public class CurrencyRateRepository(DataContext context) : ICurrencyRateReposito
     {
         var upperCode = code.ToUpper();
 
-        return await _context.CurrencyTables
+        return await _context.CurrencyTables.Where(t => t.Rates.Any(r => r.Code == upperCode))
                                             .Select(it => new CurrencyTable
                                             {
                                                 Id = it.Id,
