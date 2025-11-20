@@ -15,7 +15,7 @@ Z dokumentacji NBP wynika, że tabela B jest publikowana raz w tygodniu — w ś
 Jeśli środa wypada w święto, publikacja pojawia się dzień roboczy wcześniej.
 
 W projekcie zaimplementowano rozwiązanie, w którym:
-
+- gdy apikacja uruchamia sie pierwszy raz (baza danych jest pusta) odpytuje NBP o aktualne dane
 - aplikacja uruchamia synchronizację **raz dziennie o 12:30**,  
 - jeśli pojawi się **nowa tabela**, jest zapisywana w bazie,  
 - baza przechowuje **pełną historię** poprzednich publikacji,  
