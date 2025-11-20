@@ -2,9 +2,11 @@
 
 namespace CurrencyExchangeRates.Server.HostedServices;
 
-public class NbpRatesScheduler(IServiceScopeFactory scopeFactory) : BackgroundService
+public class NbpRatesScheduler(IServiceScopeFactory scopeFactory, ILogger<NbpRatesScheduler> logger) : BackgroundService
 {
     private readonly IServiceScopeFactory _scopeFactory = scopeFactory;
+    private readonly ILogger<NbpRatesScheduler> _logger = logger;
+
     private const int MaxRetries = 3;
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
@@ -36,7 +38,6 @@ public class NbpRatesScheduler(IServiceScopeFactory scopeFactory) : BackgroundSe
                 }
                 catch (TaskCanceledException)
                 {
-                    // normalne gdy aplikacja się wyłącza
                     return;
                 }
 
@@ -46,7 +47,7 @@ public class NbpRatesScheduler(IServiceScopeFactory scopeFactory) : BackgroundSe
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Scheduler error: " + ex);
+            _logger.LogInformation($"Scheduler error: {ex}");
         }
     }
 
