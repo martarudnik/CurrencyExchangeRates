@@ -8,4 +8,5 @@ public interface ICurrencyRateRepository
     Task<IEnumerable<CurrencyTable>> GetCurrencyHistoryByCode(string code, CancellationToken cancellationToken);
     Task<bool> ExistsByEffectiveDateAsync(DateTime date, CancellationToken cancellationToken);
     Task AddAsync(CurrencyTable table, CancellationToken cancellationToken);
+    Task<bool> AnyRatesAsync(CancellationToken cancellationToken);
 }

@@ -1,6 +1,7 @@
 ﻿using CurrencyExchangeRates.Application;
 using CurrencyExchangeRates.Infrastructure;
 using CurrencyExchangeRates.Server.HostedServices;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,4 +46,11 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapFallbackToFile("/index.html");
 
+using (var scope = app.Services.CreateScope())
+{
+	var db = scope.ServiceProvider.GetRequiredService<DataContext>();
+	db.Database.Migrate();
+}
+
 app.Run();
+

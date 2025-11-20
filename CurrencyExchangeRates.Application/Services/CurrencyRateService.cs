@@ -48,4 +48,9 @@ public class CurrencyRateService(ICurrencyRateRepository currencyRateRepository,
 
         await _currencyRateRepository.AddAsync(entity, cancellationToken);
     }
+
+    public Task<bool> AnyRatesAsync(CancellationToken cancellationToken)
+    {
+        return _currencyRateRepository.AnyRatesAsync(cancellationToken);
+    }
 }

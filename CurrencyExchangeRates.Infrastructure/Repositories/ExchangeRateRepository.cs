@@ -42,4 +42,9 @@ public class CurrencyRateRepository(DataContext context) : ICurrencyRateReposito
         await _context.CurrencyTables.AddAsync(table, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
     }
+
+    public Task<bool> AnyRatesAsync(CancellationToken cancellationToken)
+    {
+        return _context.CurrencyRates.AnyAsync(cancellationToken);
+    }
 }

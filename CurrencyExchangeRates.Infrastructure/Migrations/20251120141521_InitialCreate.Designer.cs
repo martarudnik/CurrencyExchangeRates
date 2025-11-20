@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CurrencyExchangeRates.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20251119190948_AddCurrencyRateRelationAndIndexes")]
-    partial class AddCurrencyRateRelationAndIndexes
+    [Migration("20251120141521_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,13 +40,15 @@ namespace CurrencyExchangeRates.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CurrencyTableId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("CurrencyTableId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Rate")
                         .HasColumnType("decimal(18,8)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Code");
 
                     b.HasIndex("CurrencyTableId");
 
@@ -55,11 +57,9 @@ namespace CurrencyExchangeRates.Infrastructure.Migrations
 
             modelBuilder.Entity("CurrencyExchangeRates.Domain.Entities.CurrencyTable", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("EffectiveDate")
                         .HasColumnType("datetime2");
@@ -70,19 +70,26 @@ namespace CurrencyExchangeRates.Infrastructure.Migrations
 
                     b.Property<string>("TableType")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EffectiveDate");
+
+                    b.HasIndex("TableType");
 
                     b.ToTable("CurrencyTables");
                 });
 
             modelBuilder.Entity("CurrencyExchangeRates.Domain.Entities.CurrencyRate", b =>
                 {
-                    b.HasOne("CurrencyExchangeRates.Domain.Entities.CurrencyTable", null)
+                    b.HasOne("CurrencyExchangeRates.Domain.Entities.CurrencyTable", "CurrencyTable")
                         .WithMany("Rates")
                         .HasForeignKey("CurrencyTableId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CurrencyTable");
                 });
 
             modelBuilder.Entity("CurrencyExchangeRates.Domain.Entities.CurrencyTable", b =>

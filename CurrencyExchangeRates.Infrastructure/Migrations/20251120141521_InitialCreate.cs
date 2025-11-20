@@ -15,10 +15,9 @@ namespace CurrencyExchangeRates.Infrastructure.Migrations
                 name: "CurrencyTables",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TableNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TableType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TableType = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     EffectiveDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -34,7 +33,7 @@ namespace CurrencyExchangeRates.Infrastructure.Migrations
                     Code = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
                     Currency = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Rate = table.Column<decimal>(type: "decimal(18,8)", nullable: false),
-                    CurrencyTableId = table.Column<int>(type: "int", nullable: true)
+                    CurrencyTableId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -48,9 +47,24 @@ namespace CurrencyExchangeRates.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_CurrencyRates_Code",
+                table: "CurrencyRates",
+                column: "Code");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CurrencyRates_CurrencyTableId",
                 table: "CurrencyRates",
                 column: "CurrencyTableId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CurrencyTables_EffectiveDate",
+                table: "CurrencyTables",
+                column: "EffectiveDate");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CurrencyTables_TableType",
+                table: "CurrencyTables",
+                column: "TableType");
         }
 
         /// <inheritdoc />

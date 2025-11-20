@@ -1,25 +1,53 @@
 ﻿using CurrencyExchangeRates.Application.Interfaces;
 
 namespace CurrencyExchangeRates.Server.HostedServices;
+
 public class NbpRatesScheduler(IServiceScopeFactory scopeFactory) : BackgroundService
 {
     private readonly IServiceScopeFactory _scopeFactory = scopeFactory;
     private const int MaxRetries = 3;
 
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-#if DEBUG
-        //var delay = GetDelayUntilNextRun(12, 30);
-        //await Task.Delay(delay, stoppingToken);
-        await RunWithRetry(stoppingToken);
-#else
-        while (!stoppingToken.IsCancellationRequested)
+        try
         {
-            var delay = GetDelayUntilNextRun(12, 30);
-            await Task.Delay(delay, stoppingToken);
-            await RunWithRetry(stoppingToken);
-        }
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var currencyRateService = scope.ServiceProvider.GetRequiredService<ICurrencyRateService>();
+
+                bool hasAnyRates = await currencyRateService.AnyRatesAsync(cancellationToken);
+
+                if (!hasAnyRates)
+                {
+                    await RunWithRetry(cancellationToken);
+                }
+            }
+
+#if DEBUG
+            await RunWithRetry(cancellationToken);
+#else
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                var delay = GetDelayUntilNextRun(12, 30);
+
+                try
+                {
+                    await Task.Delay(delay, stoppingToken);
+                }
+                catch (TaskCanceledException)
+                {
+                    // normalne gdy aplikacja się wyłącza
+                    return;
+                }
+
+                await RunWithRetry(stoppingToken);
+            }
 #endif
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Scheduler error: " + ex);
+        }
     }
 
     private async Task RunWithRetry(CancellationToken cancellationToken)
@@ -44,7 +72,14 @@ public class NbpRatesScheduler(IServiceScopeFactory scopeFactory) : BackgroundSe
                 if (attempt >= MaxRetries)
                     return;
 
-                await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
+                try
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
+                }
+                catch (TaskCanceledException)
+                {
+                    return;
+                }
             }
         }
     }
