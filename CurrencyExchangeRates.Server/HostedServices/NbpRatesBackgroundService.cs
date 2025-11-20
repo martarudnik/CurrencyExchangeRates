@@ -25,25 +25,21 @@ public class NbpRatesScheduler(IServiceScopeFactory scopeFactory, ILogger<NbpRat
                 }
             }
 
-#if DEBUG
-            await RunWithRetry(cancellationToken);
-#else
-            while (!stoppingToken.IsCancellationRequested)
+            while (!cancellationToken.IsCancellationRequested)
             {
                 var delay = GetDelayUntilNextRun(12, 30);
 
                 try
                 {
-                    await Task.Delay(delay, stoppingToken);
+                    await Task.Delay(delay, cancellationToken);
                 }
                 catch (TaskCanceledException)
                 {
                     return;
                 }
 
-                await RunWithRetry(stoppingToken);
+                await RunWithRetry(cancellationToken);
             }
-#endif
         }
         catch (Exception ex)
         {
